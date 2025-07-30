@@ -1,0 +1,149 @@
+{
+  "name": "Agente IA2 correo",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f6c46aee-47fa-428e-b479-40b235f23ba7",
+      "name": "When chat message received",
+      "webhookId": "0fbf634d-556b-403d-9a4a-b20a675e91bb"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=#Rol\nEres un asistente capaz de enviar emails\n\n#Tareas\n- Tu función principal es responder a este mensaje {{ $json.chatInput }}\n\n- Utiliza información de la herramienta Emails para enviar correos electrónicos\n\n#Notas\n- Para enviar un email debes pedirle al usuario el email del destinatario, y lo que quiere enviar por correo.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "a89497bc-3595-44f3-b183-8ec758cdd481",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        200
+      ],
+      "id": "50e595b1-08b3-4ebb-9319-65b3a751917e",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "vrCTX8LlU85H9Ouv",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        340,
+        220
+      ],
+      "id": "66415d84-9168-4bc8-a006-753e7502e6f8",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI(\"emailAddress\",\"el email del destinatario\") }}",
+        "subject": "={{ $fromAI(\"subject\", \"el asunto del email\") }}",
+        "message": "={{ $fromAI(\"message\",\"Contenido del mensaje\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        480,
+        220
+      ],
+      "id": "91679ac4-0828-4f4e-87f8-76837f1aa2a1",
+      "name": "Emails",
+      "webhookId": "e4ab29a7-f492-462e-b8de-41a66b820a17",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7iU4vbTi1mDVJa8",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Emails": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0dc3d5af-b9b4-437d-84f7-dce5de79f91a",
+  "meta": {
+    "instanceId": "6b2a1bf005524a2b8f2bd3c91b03a93eaf531dc87c83148fa1d6bd925e15dadd"
+  },
+  "id": "tHa8KUbQxaXM9ZCG",
+  "tags": []
+}

@@ -1,0 +1,141 @@
+{
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Name & Job",
+        "formDescription": "Name & Job",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Apellido",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Trabajo",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "25891afa-5e1e-4ddd-a650-3d74cb316a10",
+      "name": "On form submission",
+      "webhookId": "41d308a3-c544-457b-9ef2-a87421d101c8"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "app9bQFqPG4tZniQW",
+          "mode": "list",
+          "cachedResultName": "NameJob",
+          "cachedResultUrl": "https://airtable.com/app9bQFqPG4tZniQW"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblhffdz4ndf2RHqJ",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/app9bQFqPG4tZniQW/tblhffdz4ndf2RHqJ"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "Apellido": "={{ $json.Apellido }}",
+            "Trabajo": "={{ $json.Trabajo }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Apellido",
+              "displayName": "Apellido",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Trabajo",
+              "displayName": "Trabajo",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        220,
+        0
+      ],
+      "id": "9b8be7f1-ad7b-401c-823e-2e0855e04767",
+      "name": "Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "pq7PxghnSjN0FLkN",
+          "name": "Airtable NameJob"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f79a645f-0cd1-401e-8f05-4b261aaa2ed0",
+  "meta": {
+    "instanceId": "6b2a1bf005524a2b8f2bd3c91b03a93eaf531dc87c83148fa1d6bd925e15dadd"
+  },
+  "id": "YbGhszWOH6lAxKyy",
+  "tags": []
+}
